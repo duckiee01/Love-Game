@@ -1,223 +1,259 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>For You ❤️</title>
+<meta charset="UTF-8">
+<title>For You ❤️</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #ffd6e5;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-    }
+<style>
+body {
+  margin: 0;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #ffd6e5;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+}
 
-    /* 🎀 RANDOM BOWS */
-    .bow {
-      position: absolute;
-      pointer-events: none;
-      opacity: 0.6;
-      z-index: 0;
-    }
+/* 🎀 BACKGROUND BOWS */
+.bow {
+  position: absolute;
+  pointer-events: none;
+  opacity: 0.6;
+  z-index: 0;
+}
 
-    /* TEXT AREA */
-    .text-area {
-      height: 40vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: flex-end;
-      align-items: center;
-      text-align: center;
-      padding: 0 20px 20px;
-      z-index: 2;
-    }
+/* TEXT AREA */
+.text-area {
+  height: 40vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  text-align: center;
+  padding: 0 20px 20px;
+  z-index: 2;
+}
 
-    h1 {
-      margin-bottom: 10px;
-    }
+h1 {
+  margin-bottom: 10px;
+}
 
-    #subtext {
-      font-size: 18px;
-      min-height: 24px;
-    }
+#subtext {
+  font-size: 18px;
+  min-height: 24px;
+}
 
-    /* BUTTON AREA */
-    .button-area {
-      height: 60vh;
-      width: 100%;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding-top: 10px;
-      z-index: 2;
-    }
+/* BUTTON AREA */
+.button-area {
+  height: 60vh;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding-top: 10px;
+  z-index: 2;
+}
 
-    button {
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 12px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
+button {
+  padding: 15px 30px;
+  font-size: 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
 
-    #yesBtn {
-      background-color: #ff4d8d;
-      color: white;
-      z-index: 3;
-    }
+#yesBtn {
+  background-color: #ff4d8d;
+  color: white;
+  z-index: 3;
+}
 
-    #noBtn {
-      background-color: #f2f2f2;
-      color: black;
-      position: absolute;
-      left: 60%;
-      z-index: 3;
-    }
-  </style>
+#noBtn {
+  background-color: #f2f2f2;
+  color: black;
+  position: absolute;
+  left: 60%;
+  z-index: 3;
+}
+
+/* 🎉 RIBBON BURST */
+#ribbon-burst {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9999;
+}
+
+.ribbon-pop {
+  position: absolute;
+  font-size: 40px;
+  animation: popOut 1.5s ease-out forwards;
+}
+
+@keyframes popOut {
+  from {
+    transform: scale(0) rotate(0deg);
+    opacity: 0;
+  }
+  to {
+    transform: translate(var(--x), var(--y)) scale(1.2) rotate(var(--r));
+    opacity: 1;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <!-- 🎀 BOW CONTAINER -->
-  <div id="bows-container"></div>
+<!-- 🎀 STATIC BOWS -->
+<div id="bows-container"></div>
 
-  <div class="text-area">
-    <h1 id="question"></h1>
-    <p id="subtext"></p>
-  </div>
+<!-- 🎉 BURST CONTAINER -->
+<div id="ribbon-burst"></div>
 
-  <div class="button-area" id="buttonArea">
-    <button id="yesBtn">Yes ❤️</button>
-    <button id="noBtn">No 💔</button>
-  </div>
+<div class="text-area">
+  <h1 id="question"></h1>
+  <p id="subtext"></p>
+</div>
 
-  <script>
-    /* 🎀 CREATE RANDOM BOWS */
-    const bowContainer = document.getElementById("bows-container");
+<div class="button-area" id="buttonArea">
+  <button id="yesBtn">Yes ❤️</button>
+  <button id="noBtn">No 💔</button>
+</div>
 
-    const bowCount = 14; // at least 10 (you asked 😌)
+<script>
+/* 🎀 CREATE RANDOM BACKGROUND BOWS */
+const bowContainer = document.getElementById("bows-container");
 
-    for (let i = 0; i < bowCount; i++) {
-      const bow = document.createElement("div");
-      bow.classList.add("bow");
-      bow.innerText = "🎀";
+for (let i = 0; i < 14; i++) {
+  const bow = document.createElement("div");
+  bow.className = "bow";
+  bow.innerText = "🎀";
 
-      const size = Math.random() * 50 + 30; // 30px - 80px
-      const x = Math.random() * 100; // %
-      const y = Math.random() * 100; // %
-      const rotation = Math.random() * 360; // degrees
+  bow.style.fontSize = Math.random() * 50 + 30 + "px";
+  bow.style.left = Math.random() * 100 + "%";
+  bow.style.top = Math.random() * 100 + "%";
+  bow.style.transform = `rotate(${Math.random() * 360}deg)`;
 
-      bow.style.fontSize = size + "px";
-      bow.style.left = x + "%";
-      bow.style.top = y + "%";
-      bow.style.transform = `rotate(${rotation}deg)`;
+  bowContainer.appendChild(bow);
+}
 
-      bowContainer.appendChild(bow);
-    }
+/* 💖 SLIDES */
+const slides = [
+  {
+    question: "I am sorry for how I treated you.<br>Could you forgive me?",
+    noTexts: ["Please 🥺", "I really mean it", "I’ll do better, I promise"]
+  },
+  {
+    question: "Would you be able to come for a date night with me?",
+    noTexts: ["Just one night?", "I’ll plan everything ❤️", "It’ll be special"]
+  },
+  {
+    question: "Do you love me now? ❤️",
+    noTexts: ["Be honest 😌", "My heart says yes", "Yours does too"]
+  }
+];
 
-    /* 💖 GAME LOGIC */
-    const slides = [
-      {
-        question: "I am sorry for how I treated you.<br>Could you forgive me?",
-        noTexts: ["Please 🥺", "I really mean it", "I’ll do better, I promise"]
-      },
-      {
-        question: "Would you be able to come for a date night with me?",
-        noTexts: ["Just one night?", "I’ll plan everything ❤️", "It’ll be special"]
-      },
-      {
-        question: "Do you love me now? ❤️",
-        noTexts: ["Be honest 😌", "My heart says yes", "Yours does too"]
-      }
-    ];
+let index = 0;
+let noClicks = 0;
+let yesScale = 1;
 
-    let index = 0;
-    let noClicks = 0;
-    let yesScale = 1;
+const questionEl = document.getElementById("question");
+const subtextEl = document.getElementById("subtext");
+const yesBtn = document.getElementById("yesBtn");
+const noBtn = document.getElementById("noBtn");
+const buttonArea = document.getElementById("buttonArea");
 
-    const questionEl = document.getElementById("question");
-    const subtextEl = document.getElementById("subtext");
-    const yesBtn = document.getElementById("yesBtn");
-    const noBtn = document.getElementById("noBtn");
-    const buttonArea = document.getElementById("buttonArea");
+function loadSlide() {
+  questionEl.innerHTML = slides[index].question;
+  subtextEl.innerText = "";
+  noClicks = 0;
+  yesScale = 1;
 
-    function loadSlide() {
-      questionEl.innerHTML = slides[index].question;
-      subtextEl.innerText = "";
-      noClicks = 0;
-      yesScale = 1;
+  yesBtn.style = "";
+  yesBtn.style.backgroundColor = "#ff4d8d";
+  yesBtn.style.color = "white";
 
-      yesBtn.style = "";
-      yesBtn.style.backgroundColor = "#ff4d8d";
-      yesBtn.style.color = "white";
+  noBtn.style.display = "inline-block";
+  noBtn.style.left = "60%";
+  noBtn.style.top = "10px";
+}
 
-      noBtn.style.display = "inline-block";
-      noBtn.style.left = "60%";
-      noBtn.style.top = "10px";
-    }
+loadSlide();
 
+/* 🎉 RIBBON EXPLOSION */
+function ribbonExplosion() {
+  const container = document.getElementById("ribbon-burst");
+
+  for (let i = 0; i < 20; i++) {
+    const r = document.createElement("div");
+    r.className = "ribbon-pop";
+    r.innerText = "🎀";
+
+    r.style.left = "50%";
+    r.style.top = "50%";
+    r.style.setProperty("--x", Math.random() * 600 - 300 + "px");
+    r.style.setProperty("--y", Math.random() * 400 - 200 + "px");
+    r.style.setProperty("--r", Math.random() * 360 + "deg");
+
+    container.appendChild(r);
+    setTimeout(() => r.remove(), 2000);
+  }
+}
+
+yesBtn.addEventListener("click", () => {
+  if (index === slides.length - 1) {
+    ribbonExplosion();
+    setTimeout(() => {
+      document.body.innerHTML = `
+        <div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
+          <h1>Thank you for giving me another chance 🥺🎀</h1>
+          <p style="font-size:22px;">I love you.</p>
+        </div>
+      `;
+    }, 1200);
+  } else {
+    index++;
     loadSlide();
+  }
+});
 
-    yesBtn.addEventListener("click", () => {
-      index++;
+noBtn.addEventListener("click", () => {
+  const texts = slides[index].noTexts;
+  subtextEl.innerText = texts[Math.min(noClicks, texts.length - 1)];
 
-      if (index < slides.length) {
-        loadSlide();
-      } else {
-        document.body.innerHTML = `
-          <div style="height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;">
-            <h1>Thank you for giving me another chance 🥺🎀</h1>
-            <p style="font-size:22px;">I love you.</p>
-          </div>
-        `;
-      }
-    });
+  yesScale += 0.35;
+  yesBtn.style.transform = `scale(${yesScale})`;
 
-    noBtn.addEventListener("click", () => {
-      const texts = slides[index].noTexts;
-      subtextEl.innerText = texts[Math.min(noClicks, texts.length - 1)];
+  const area = buttonArea.getBoundingClientRect();
+  noBtn.style.left = Math.random() * (area.width - 100) + "px";
+  noBtn.style.top = Math.random() * (area.height * 0.5) + "px";
 
-      yesScale += 0.35;
-      yesBtn.style.transform = `scale(${yesScale})`;
+  noClicks++;
 
-      const areaRect = buttonArea.getBoundingClientRect();
-      const maxX = areaRect.width - noBtn.offsetWidth;
-      const maxY = areaRect.height * 0.5 - noBtn.offsetHeight;
+  if (yesScale >= 4) {
+    yesBtn.style.position = "fixed";
+    yesBtn.style.inset = 0;
+    yesBtn.style.fontSize = "40px";
+    noBtn.style.display = "none";
+  }
+});
 
-      noBtn.style.left = Math.random() * maxX + "px";
-      noBtn.style.top = Math.random() * maxY + "px";
-
-      noClicks++;
-
-      if (yesScale >= 4) {
-        yesBtn.style.position = "fixed";
-        yesBtn.style.top = 0;
-        yesBtn.style.left = 0;
-        yesBtn.style.width = "100vw";
-        yesBtn.style.height = "100vh";
-        yesBtn.style.fontSize = "40px";
-        noBtn.style.display = "none";
-      }
-    });
-    let typed = "";
-
-document.addEventListener("keydown", (e) => {
+/* 🔐 SECRET MESSAGE */
+let typed = "";
+document.addEventListener("keydown", e => {
   typed += e.key.toLowerCase();
   if (typed.includes("love")) {
     alert("You found the secret 💕\nI love you bohth sara my baby");
     typed = "";
   }
 });
-
-  </script>
+</script>
 
 </body>
 </html>
-
