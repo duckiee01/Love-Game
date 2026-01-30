@@ -206,7 +206,18 @@
         noBtn.style.display = "none";
       }
     });
+    let typed = "";
+
+document.addEventListener("keydown", (e) => {
+  typed += e.key.toLowerCase();
+  if (typed.includes("love")) {
+    alert("You found the secret 💕\nI love you bohth sara my baby");
+    typed = "";
+  }
+});
+
   </script>
 
 </body>
 </html>
+
